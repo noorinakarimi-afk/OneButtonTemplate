@@ -1,6 +1,9 @@
 namespace SpriteKind {
     export const Goal = SpriteKind.create()
 }
+namespace StatusBarKind {
+    export const Distance = StatusBarKind.create()
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (Ready) {
         mySprite.x += 6
@@ -15,6 +18,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     myEnemy.x = mySprite.x - 50
     music.play(music.createSoundEffect(WaveShape.Sawtooth, 2955, 1023, 204, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
 })
+let myEnemyspeed = 0
 let myEnemy: Sprite = null
 let mySprite: Sprite = null
 let Ready = false
@@ -142,7 +146,7 @@ myEnemy = sprites.create(img`
     .....ccccdd555dccccc............
     ........cccccccc................
     `, SpriteKind.Enemy)
-myEnemy.setPosition(-10, 52)
+myEnemy.setPosition(-18, 52)
 myEnemy.vx += 80
 myEnemy.fx += 150
 let Goal = sprites.create(img`
@@ -199,4 +203,14 @@ Ready = true
 info.startCountdown(60)
 scene.cameraFollowSprite(mySprite)
 Goal.setPosition(1500, 56)
-myEnemy.follow(mySprite, 30)
+let statusbar = statusbars.create(100, 4, StatusBarKind.Distance)
+statusbar.setPosition(80, 10)
+statusbar.max = 1475
+mySprite.startEffect(effects.trail, 60000)
+game.onUpdate(function () {
+    statusbar.value = mySprite.x
+})
+game.onUpdateInterval(1000, function () {
+    myEnemyspeed += 5
+    myEnemy.follow(mySprite, myEnemyspeed)
+})
