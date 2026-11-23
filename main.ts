@@ -17,6 +17,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     game.showLongText("GO FASTER!!!", DialogLayout.Bottom)
     myEnemy.x = mySprite.x - 50
     music.play(music.createSoundEffect(WaveShape.Sawtooth, 2955, 1023, 204, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+    effects.bubbles.startScreenEffect(1000)
 })
 let myEnemyspeed = 0
 let myEnemy: Sprite = null
@@ -93,10 +94,10 @@ game.setDialogFrame(img`
     .....aaa............dddd............dddd...........33.......33....
     ..................................................................
     `)
-game.showLongText("Welcome to my One Button Game!", DialogLayout.Center)
+game.showLongText("Welcome to Dino Chase!", DialogLayout.Center)
 game.showLongText("You can only use the A button.", DialogLayout.Bottom)
-game.showLongText("Have fun!", DialogLayout.Bottom)
-info.setLife(2)
+game.showLongText("Reach home in 1 minute!", DialogLayout.Bottom)
+info.setLife(3)
 mySprite = sprites.create(img`
     ...................
     ....33333333.......
@@ -210,7 +211,7 @@ mySprite.startEffect(effects.trail, 60000)
 game.onUpdate(function () {
     statusbar.value = mySprite.x
 })
-game.onUpdateInterval(1000, function () {
+game.onUpdateInterval(2000, function () {
     myEnemyspeed += 5
     myEnemy.follow(mySprite, myEnemyspeed)
 })
